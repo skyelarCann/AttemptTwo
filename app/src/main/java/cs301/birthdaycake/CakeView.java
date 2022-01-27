@@ -7,7 +7,10 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
+
 public class CakeView extends SurfaceView {
+
+    /* Button implementations */
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <LinearLayout
+        android:id="@+id/TextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -21,10 +23,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/CakeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <!--        CakeView is a custom SurfaceView that is defined in the app's source code -->
         <cs301.birthdaycake.CakeView
@@ -32,30 +35,84 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/WidgetsAndButtonsLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/button"
+        <LinearLayout
+            android:id="@+id/CandleBarLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HOORAY!!" />
+            android:layout_weight="3"
+            android:orientation="vertical">
 
-        <Switch
-            android:id="@+id/switch1"
+            <TextView
+                android:id="@+id/candleCountBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How many candles?"
+                android:textSize="20sp" />
+
+            <SeekBar
+                android:id="@+id/candleBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="5"
+                android:progress="2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/SwitchLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Frosting" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button2"
+            <Switch
+                android:id="@+id/frostingSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Frosting" />
+
+            <Switch
+                android:id="@+id/candleSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Candles" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ButtonLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="yay..." />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/candleOutButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3sp"
+                android:layout_weight="1"
+                android:text="BLOW OUT" />
+
+            <Button
+                android:id="@+id/exitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3sp"
+                android:layout_weight="1"
+                android:onClick="goodbye"
+                android:text="GOODBYE" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
