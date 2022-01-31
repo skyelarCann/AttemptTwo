@@ -10,7 +10,8 @@ import android.view.SurfaceView;
 
 public class CakeView extends SurfaceView {
 
-    /* Button implementations */
+    /* Cake model declaration */
+    private CakeModel cakeData;
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -48,6 +49,7 @@ public class CakeView extends SurfaceView {
 
         //This is essential or your onDraw method won't get called
         setWillNotDraw(false);
+        cakeData = new CakeModel();
 
         //Setup our palette
         cakePaint.setColor(0xFFC755B5);  //violet-red
@@ -72,16 +74,24 @@ public class CakeView extends SurfaceView {
      * the position of the bottom left corner of the candle
      */
     public void drawCandle(Canvas canvas, float left, float bottom) {
+
+        if(!cakeData.hasCandles){
+            return;
+        }
+
         canvas.drawRect(left, bottom - candleHeight, left + candleWidth, bottom, candlePaint);
 
-        //draw the outer flame
-        float flameCenterX = left + candleWidth/2;
-        float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius/3;
-        canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
+        if(cakeData.candlesLit)
+        {
+            //draw the outer flame
+            float flameCenterX = left + candleWidth/2;
+            float flameCenterY = bottom - wickHeight - candleHeight - outerFlameRadius/3;
+            canvas.drawCircle(flameCenterX, flameCenterY, outerFlameRadius, outerFlamePaint);
 
-        //draw the inner flame
-        flameCenterY += outerFlameRadius/3;
-        canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
+            //draw the inner flame
+            flameCenterY += outerFlameRadius/3;
+            canvas.drawCircle(flameCenterX, flameCenterY, innerFlameRadius, innerFlamePaint);
+        }
 
         //draw the wick
         float wickLeft = left + candleWidth/2 - wickWidth/2;
@@ -104,6 +114,14 @@ public class CakeView extends SurfaceView {
         float bottom = cakeTop + frostHeight;
 
         //Frosting on top
+        if(!cakeData.hasFrosting)
+        {
+            frostingPaint.setColor(0xFFC755B5);
+        }
+        else
+        {
+            frostingPaint.setColor(0xFFFFFACD);  //pale yellow
+        }
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, frostingPaint);
         top += frostHeight;
         bottom += layerHeight;
@@ -121,11 +139,47 @@ public class CakeView extends SurfaceView {
         //Then a second cake layer
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
-        //Now a candle in the center
-        drawCandle(canvas, cakeLeft + cakeWidth/2 - ((candleWidth/2)+(cakeWidth/6)), cakeTop);
-        drawCandle(canvas, cakeLeft + ((cakeWidth/2)+(cakeWidth/6)) - candleWidth/2, cakeTop);
+        //Will draw candles based on the progress of the candleBar
+        switch (cakeData.numCandles){
+            case 0:
+                return;
+
+            case 1:
+                drawCandle(canvas, cakeLeft + cakeWidth/2 - candleWidth/2, cakeTop);
+                break;
+
+            case 2:
+                drawCandle(canvas, cakeLeft + cakeWidth/3 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 2*cakeWidth/3 - candleWidth/2, cakeTop);
+                break;
+
+            case 3:
+                drawCandle(canvas, cakeLeft + cakeWidth/4 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + cakeWidth/2 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 3*cakeWidth/4 - candleWidth/2, cakeTop);
+                break;
+
+            case 4:
+                drawCandle(canvas, cakeLeft + cakeWidth/5 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 2*cakeWidth/5 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 3*cakeWidth/5 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 4*cakeWidth/5 - candleWidth/2, cakeTop);
+                break;
+
+            case 5:
+                drawCandle(canvas, cakeLeft + cakeWidth/6 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 2*cakeWidth/6 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + cakeWidth/2 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 2*cakeWidth/3 - candleWidth/2, cakeTop);
+                drawCandle(canvas, cakeLeft + 5*cakeWidth/6 - candleWidth/2, cakeTop);
+                break;
+        }
 
     }//onDraw
+
+    public CakeModel getCakeData() {
+        return cakeData;
+    }//getCakeData
 
 }//class CakeView
 
